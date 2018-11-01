@@ -2,6 +2,11 @@ nnoremap g/ :StillSearch<CR>
 
 command! StillSearch set hls | call Still_search()
 
+" TODO naming refactor to new name
+" TODO move to autoload
+" TODO provide a <Plug> mapping
+" TODO fix empty search bug
+
 if has("autocmd")
   augroup still_autocmds
     autocmd!
