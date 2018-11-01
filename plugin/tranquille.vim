@@ -15,7 +15,7 @@ if mapcheck("g/") == "" && !hasmapto(":TranquilleSearch<CR>")
   nnoremap g/ :TranquilleSearch<CR>
 endif
 
-command! TranquilleSearch set hls | call <SID>tranquille_search()
+command! TranquilleSearch call <SID>tranquille_search() | set hls
 
 if has("autocmd")
   augroup tranquille_autocmds
