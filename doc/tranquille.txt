@@ -1,0 +1,32 @@
+*doc/tranquille.txt*  Nvim plugin for searching without moving the cursor
+
+Author:  Adam P. Regasz-Rethy (RRethy) <rethy.spud@gmail.com>
+License: This file is placed in the public domain.
+
+INTRODUCTION                                                     *tranquille*
+=============================================================================
+
+This plugin is a single mapping which allows you to search in Neovim without
+having the cursor jump to the first match.
+
+MAPPINGS                                             *tranquille-mappings*
+=========================================================================
+
+This is the default mapping to start the search. Available in normal mode.
+
+                                                           *tranquille-g/*
+g/         Start the search. Cursor will not move as results are matched
+
+
+COMMANDS                                             *tranquille-commands*
+=========================================================================
+
+ ----------------------+-------------------------------------------------
+ Command               | List                                                                  ~
+ ----------------------+-------------------------------------------------
+  `TranquilleSearch`     | Start the search
+ ----------------------+-------------------------------------------------
+
+
+vim:tw=78:ts=8:ft=help:norl:
+

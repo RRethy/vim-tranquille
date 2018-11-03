@@ -1,5 +1,5 @@
 " Vim plugin for searching without moving the cursor
-" Last Change:	2018 Nov 1
+" Last Change:	2018 Nov 2
 " Maintainer:	Adam P. Regasz-Rethy  <rethy.spud@gmail.com>
 " License:	This file is placed in the public domain.
 
@@ -12,10 +12,10 @@ let s:save_cpo = &cpo
 set cpo&vim
 
 if mapcheck("g/") == "" && !hasmapto(":TranquilleSearch<CR>")
-  nnoremap g/ :TranquilleSearch<CR>
+  nnoremap <unique> g/ :TranquilleSearch<CR>
 endif
 
-command! TranquilleSearch call <SID>tranquille_search() | set hls
+command! -nargs=0 TranquilleSearch call <SID>tranquille_search() | set hls
 
 if has("autocmd")
   augroup tranquille_autocmds
