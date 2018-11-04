@@ -2,6 +2,8 @@
 
 > Nvim plugin for searching without moving the cursor
 
+![gif](https://media.giphy.com/media/4TrV3sgpKNICCYAYXa/giphy.gif)
+
 
 ## Mapping
 
