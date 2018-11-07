@@ -7,11 +7,10 @@
 
 ## Mapping
 
-`g/` starts the search with the cursor staying in place.
+`g/` will start the search. Cursor will not move as results are matched.
 
+The default mapping:
 
-## Command
-
-| Command | Description |
-| - | - |
-| `TranquilleSearch` | Start the search while leaving cursor in place |
+```vim
+nmap <unique> g/ <Plug>(tranquille_search)
+```

@@ -8,16 +8,18 @@ if exists('g:loaded_tranquille')
 endif
 let g:loaded_tranquille = 1
 
-let s:save_cpo = &cpo
-set cpo&vim
+let s:save_cpo = &cpoptions
+set cpoptions&vim
 
-if mapcheck("g/") == "" && !hasmapto(":TranquilleSearch<CR>")
-  nnoremap <unique> g/ :TranquilleSearch<CR>
+if mapcheck('g/') ==# '' && !hasmapto('<Plug>(tranquille_search)')
+  nmap <unique> g/ <Plug>(tranquille_search)
 endif
+
+nnoremap <silent> <Plug>(tranquille_search) :TranquilleSearch<Return>
 
 command! -nargs=0 TranquilleSearch call <SID>tranquille_search() | set hls
 
-if has("autocmd")
+if has('autocmd')
   augroup tranquille_autocmds
     autocmd!
     autocmd CmdlineLeave * try | call matchdelete(s:tranquille_id) | catch /\v(E802|E803)/ | endtry
@@ -28,7 +30,7 @@ let s:tranquille_id = 67
 
 fun! s:tranquille_search() abort
   nohls
-  let Highlight_cb = function("s:highlight_cb")
+  let Highlight_cb = function('s:highlight_cb')
   let search = input({'prompt': '/', 'highlight': Highlight_cb})
   let @/ = search
 endf
@@ -53,7 +55,7 @@ fun! s:highlight_cb(cmdline) abort
   return []
 endf
 
-let &cpo = s:save_cpo
+let &cpoptions = s:save_cpo
 unlet s:save_cpo
 
 " vim:set et foldlevel=1 sw=2 foldmethod=expr foldexpr=getline(v\:lnum)=~'^\"\ Section\:'?'>1'\:getline(v\:lnum)=~#'^fu'?'a1'\:getline(v\:lnum)=~#'^endf'?'s1'\:'=':

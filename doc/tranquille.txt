@@ -17,6 +17,9 @@ This is the default mapping to start the search. Available in normal mode.
                                                            *tranquille-g/*
 g/         Start the search. Cursor will not move as results are matched
 
+The default mapping to begin the search with the cursor in place:
+>
+  nmap <unique> g/ <Plug>(tranquille_search)
 
 COMMANDS                                             *tranquille-commands*
 =========================================================================
