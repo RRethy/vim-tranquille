@@ -17,7 +17,11 @@ endif
 
 nnoremap <silent> <Plug>(tranquille_search) :TranquilleSearch<Return>
 
-command! -nargs=0 TranquilleSearch call <SID>tranquille_search() | set hls
+command! -nargs=0 TranquilleSearch
+      \ let result = <SID>tranquille_search()
+      \ | if result
+        \ | set hls
+        \ | endif
 
 augroup tranquille_autocmds
   autocmd!
@@ -36,7 +40,12 @@ fun! s:tranquille_search() abort
   augroup tranquille_textwatcher
     autocmd!
   augroup END
-  let @/ = search
+  if search !=# ''
+    let @/ = search
+    return 1
+  else
+    return 0
+  endif
 endf
 
 fun! s:update_hl() abort
