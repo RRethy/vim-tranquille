@@ -36,7 +36,7 @@ fun! s:tranquille_search() abort
     autocmd!
     autocmd CmdlineChanged * call s:update_hl()
   augroup END
-  let search = input({'prompt': '/'})
+  let search = input('/')
   augroup tranquille_textwatcher
     autocmd!
   augroup END
