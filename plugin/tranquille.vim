@@ -3,7 +3,7 @@
 " Maintainer:	Adam P. Regasz-Rethy  <rethy.spud@gmail.com>
 " License:	This file is placed in the public domain.
 
-if exists('g:loaded_tranquille')
+if exists('g:loaded_tranquille') || !has('autocmd')
   finish
 endif
 let g:loaded_tranquille = 1
@@ -19,40 +19,45 @@ nnoremap <silent> <Plug>(tranquille_search) :TranquilleSearch<Return>
 
 command! -nargs=0 TranquilleSearch call <SID>tranquille_search() | set hls
 
-if has('autocmd')
-  augroup tranquille_autocmds
-    autocmd!
-    autocmd CmdlineLeave * try | call matchdelete(s:tranquille_id) | catch /\v(E802|E803)/ | endtry
-  augroup END
-endif
+augroup tranquille_autocmds
+  autocmd!
+  autocmd CmdlineLeave * try | call matchdelete(s:tranquille_id) | catch /\v(E802|E803)/ | endtry
+augroup END
 
 let s:tranquille_id = 67
 
 fun! s:tranquille_search() abort
   nohls
-  let Highlight_cb = function('s:highlight_cb')
-  let search = input({'prompt': '/', 'highlight': Highlight_cb})
+  augroup tranquille_textwatcher
+    autocmd!
+    autocmd CmdlineChanged * call s:update_hl()
+  augroup END
+  let search = input({'prompt': '/'})
+  augroup tranquille_textwatcher
+    autocmd!
+  augroup END
   let @/ = search
 endf
 
-fun! s:highlight_cb(cmdline) abort
+fun! s:update_hl() abort
   try
     call matchdelete(s:tranquille_id)
   catch /\v(E802|E803)/
   endtry
 
-  let pattern = ''
+  let l:pattern = ''
   if !&magic
-    let pattern .= '\M'
+    let l:pattern .= '\M'
   endif
   if &ignorecase
-    let pattern .= '\c'
+    let l:pattern .= '\c'
   endif
-  let pattern .= a:cmdline
-  call matchadd('Search', pattern, 0, s:tranquille_id)
+  let l:cmdline = getcmdline()
+  if l:cmdline !=# ''
+    let l:pattern .= l:cmdline
+    call matchadd('Search', l:pattern, 0, s:tranquille_id)
+  endif
   redraw
-
-  return []
 endf
 
 let &cpoptions = s:save_cpo
