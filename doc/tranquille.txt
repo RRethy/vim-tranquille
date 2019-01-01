@@ -1,4 +1,4 @@
-*doc/tranquille.txt*  Vim plugin for searching without moving the cursor
+*tranquille.txt*  Vim plugin for searching without moving the cursor
 
 Author:  Adam P. Regasz-Rethy (RRethy) <rethy.spud@gmail.com>
 License: This file is placed in the public domain.
