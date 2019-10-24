@@ -42,6 +42,10 @@ fun! s:tranquille_search() abort
   augroup END
   if search !=# ''
     let @/ = search
+    if search(search) == 0
+      redraw
+      echohl ErrorMsg | echo 'E486: Pattern not found: '.search | echohl None
+    endif
     return 1
   else
     return 0
@@ -71,5 +75,3 @@ endf
 
 let &cpoptions = s:save_cpo
 unlet s:save_cpo
-
-" vim:set et foldlevel=1 sw=2 foldmethod=expr foldexpr=getline(v\:lnum)=~'^\"\ Section\:'?'>1'\:getline(v\:lnum)=~#'^fu'?'a1'\:getline(v\:lnum)=~#'^endf'?'s1'\:'=':
