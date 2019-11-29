@@ -42,7 +42,7 @@ fun! s:tranquille_search() abort
   augroup END
   if search !=# ''
     let @/ = search
-    if search(search) == 0
+    if search(search, 'n') == 0
       redraw
       echohl ErrorMsg | echo 'E486: Pattern not found: '.search | echohl None
     endif
