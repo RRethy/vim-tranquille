@@ -30,7 +30,7 @@ augroup END
 
 let s:tranquille_id = 67
 
-fun! s:tranquille_search() abort
+fun! s:tranquille_search()
     nohls
     augroup tranquille_textwatcher
         autocmd!
@@ -42,10 +42,14 @@ fun! s:tranquille_search() abort
     augroup END
     if search !=# ''
         let @/ = search
-        if search(search, 'n') == 0
-            redraw
-            echohl ErrorMsg | echo 'E486: Pattern not found: '.search | echohl None
-        endif
+        redraw
+        try
+            if search(search, 'n') == 0
+                echohl ErrorMsg | echo 'E486: Pattern not found: '.search | echohl None
+            endif
+        catch /.*/
+            echohl ErrorMsg | echom 'Error with search term: '.search | echohl None
+        endtry
         return 1
     else
         return 0
@@ -68,7 +72,10 @@ fun! s:update_hl() abort
     let l:cmdline = getcmdline()
     if l:cmdline !=# ''
         let l:pattern .= l:cmdline
-        call matchadd('Search', l:pattern, 0, s:tranquille_id)
+        try
+            call matchadd('Search', l:pattern, 0, s:tranquille_id)
+        catch /.*/
+        endtry
     endif
     redraw
 endf
