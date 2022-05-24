@@ -15,7 +15,7 @@ if mapcheck('g/') ==# '' && !hasmapto('<Plug>(tranquille_search)')
     nmap <unique> g/ <Plug>(tranquille_search)
 endif
 
-nnoremap <silent> <Plug>(tranquille_search) :TranquilleSearch<Return>
+nnoremap <silent> <Plug>(tranquille_search) :TranquilleSearch<CR>
 
 command! -nargs=0 TranquilleSearch
             \ let result = <SID>tranquille_search()
@@ -25,10 +25,17 @@ command! -nargs=0 TranquilleSearch
 
 augroup tranquille_autocmds
     autocmd!
-    autocmd CmdlineLeave * try | call matchdelete(s:tranquille_id) | catch /\v(E802|E803)/ | endtry
+    autocmd CmdlineLeave * call s:delete_match()
 augroup END
 
 let s:tranquille_id = 67
+
+fun! s:delete_match() abort
+    try
+        call matchdelete(s:tranquille_id)
+    catch /\v(E802|E803)/
+    endtry
+endfun
 
 fun! s:tranquille_search()
     nohls
@@ -57,10 +64,7 @@ fun! s:tranquille_search()
 endf
 
 fun! s:update_hl() abort
-    try
-        call matchdelete(s:tranquille_id)
-    catch /\v(E802|E803)/
-    endtry
+    call s:delete_match()
 
     let l:pattern = ''
     if !&magic
@@ -73,8 +77,11 @@ fun! s:update_hl() abort
     if l:cmdline !=# ''
         let l:pattern .= l:cmdline
         try
+            echom '555'
             call matchadd('Search', l:pattern, 0, s:tranquille_id)
+            echom '666'
         catch /.*/
+            echom '444'
         endtry
     endif
     redraw
