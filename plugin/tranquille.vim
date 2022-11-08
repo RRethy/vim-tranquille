@@ -77,11 +77,8 @@ fun! s:update_hl() abort
     if l:cmdline !=# ''
         let l:pattern .= l:cmdline
         try
-            echom '555'
             call matchadd('Search', l:pattern, 0, s:tranquille_id)
-            echom '666'
         catch /.*/
-            echom '444'
         endtry
     endif
     redraw
